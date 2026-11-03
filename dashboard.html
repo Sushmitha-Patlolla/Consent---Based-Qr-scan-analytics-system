@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>QR Information Dashboard</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 30px;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        #visitorCount {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .visitor {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .visitor h2 {
+            margin-top: 0;
+        }
+
+        .row {
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .label {
+            width: 220px;
+            font-weight: bold;
+        }
+
+        .value {
+            word-break: break-word;
+        }
+
+        .refresh {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #222;
+            color: white;
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        .refresh:hover {
+            opacity: 0.85;
+        }
+
+        .error {
+            color: #b00020;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>QR Information Dashboard</h1>
+
+    <div class="subtitle">
+        Consent-based visitor information
+    </div>
+
+    <button class="refresh" onclick="loadVisitors()">
+        Refresh Dashboard
+    </button>
+
+    <div id="visitorCount">
+        Loading...
+    </div>
+
+    <div id="visitors"></div>
+
+    <script>
+
+        async function loadVisitors() {
+
+            const visitorContainer =
+                document.getElementById("visitors");
+
+            const countElement =
+                document.getElementById("visitorCount");
+
+            try {
+
+                const response =
+                    await fetch("/api/visitors");
+
+                if (!response.ok) {
+                    throw new Error("Server error");
+                }
+
+                const data =
+                    await response.json();
+
+                countElement.textContent =
+                    `Total consented visitors: ${data.count}`;
+
+                visitorContainer.innerHTML = "";
+
+                data.visitors.forEach(visitor => {
+
+                    const information =
+                        visitor.information || {};
+
+                    const card =
+                        document.createElement("div");
+
+                    card.className = "visitor";
+
+                    card.innerHTML = `
+                        <h2>Visitor #${visitor.id}</h2>
+
+                        <div class="row">
+                            <span class="label">Consent:</span>
+                            <span class="value">
+                                ${visitor.consent ? "Yes" : "No"}
+                            </span>
+                        </div>
+
+                        <div class="row">
+                            <span class="label">Consent time:</span>
+                            <span class="value">
+                                ${visitor.consentTime}
+                            </span>
+                        </div>
+
+                        <div class="row">
+                            <span class="label">Browser:</span>
+                            <span class="value">
+                                ${information.browser || "Not available"}
+                            </span>
+                        </div>
+
+                        <div class="row">
+                            <span class="label">Platform:</span>
+                            <span class="value">
+                                ${information.platform || "Not available"}
+                            </span>
+                        </div>
+
+                        <div class="row">
+                            <span class="label">Language:</span>
+                            <span class="value">
+                                ${information.language || "Not available"}
+                            </span>
+                        </div>
+
+                        <div class="row">
+                            <span class="label">Languages:</span>
+                            <span class="value">
+                                ${information.languages || "Not available"}
+                            </span>
+                        </div>
+
+                        <div class="row">
+                            <span class="label">Time zone:</span>
+                            <span class="value">
+                                ${information.timeZone || "Not available"}
+                            </span>
+                        </div>
+
+                        <div class="row">
+                            <span class="label">Screen:</span>
+                            <span class="value">
+                                ${information.screenWidth || "?"}
+                                ×
+                                ${information.screenHeight || "?"}
+                            </span>
+                        </div>
+
+                        <div class="row">
+                            <span class="label">Available screen:</span>
+                            <span class="value">
+                                ${information.availableScreenWidth || "?"}
+                                ×
+                                ${information.availableScreenHeight || "?"}
+                            </span>
+                        </div>
+
+                        <div class="row">
+                            <span class="label">Color depth:</span>
+                            <span class="value">
+                                ${information.colorDepth || "Not available"}
+                            </span>
+                        </div>
+
+                        <div class="row">
+                            <span class="label">Online:</span>
+                            <span class="value">
+                                ${information.online ? "Yes" : "No"}
+                            </span>
+                        </div>
+
+                        <div class="row">
+                            <span class="label">Cookies enabled:</span>
+                            <span class="value">
+                                ${information.cookiesEnabled ? "Yes" : "No"}
+                            </span>
+                        </div>
+
+                        <div class="row">
+                            <span class="label">Touch points:</span>
+                            <span class="value">
+                                ${information.touchPoints ?? "Not available"}
+                            </span>
+                        </div>
+
+                        <div class="row">
+                            <span class="label">Battery:</span>
+                            <span class="value">
+                                ${
+                                    information.batteryLevel !== undefined
+                                    ? information.batteryLevel + "%"
+                                    : "Not available"
+                                }
+                            </span>
+                        </div>
+
+                        <div class="row">
+                            <span class="label">Charging:</span>
+                            <span class="value">
+                                ${
+                                    information.charging !== undefined
+                                    ? (information.charging ? "Yes" : "No")
+                                    : "Not available"
+                                }
+                            </span>
+                        </div>
+
+                        <div class="row">
+                            <span class="label">Current time:</span>
+                            <span class="value">
+                                ${information.currentTime || "Not available"}
+                            </span>
+                        </div>
+                    `;
+
+                    visitorContainer.appendChild(card);
+
+                });
+
+            } catch (error) {
+
+                countElement.textContent = "";
+
+                visitorContainer.innerHTML = `
+                    <p class="error">
+                        Could not load visitor information.
+                    </p>
+                `;
+
+                console.error(error);
+            }
+        }
+
+        loadVisitors();
+
+    </script>
+
+</body>
+</html>

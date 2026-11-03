@@ -1,0 +1,161 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Information Notice</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f8;
+        margin: 0;
+        padding: 40px 20px;
+    }
+
+    .container {
+        max-width: 650px;
+        margin: auto;
+    }
+
+    .card {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        margin-top: 0;
+    }
+
+    .notice {
+        background: #eef6ff;
+        padding: 15px;
+        border-radius: 10px;
+        margin: 20px 0;
+    }
+
+    ul {
+        line-height: 1.8;
+    }
+
+    .privacy {
+        background: #f7f7f7;
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+
+    .buttons {
+        margin-top: 25px;
+        display: flex;
+        gap: 10px;
+    }
+
+    button {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .continue {
+        background: #2563eb;
+        color: white;
+    }
+
+    .cancel {
+        background: #ddd;
+        color: black;
+    }
+
+    #information {
+        margin-top: 30px;
+    }
+
+    .row {
+        padding: 12px 0;
+        border-bottom: 1px solid #ddd;
+        word-break: break-word;
+    }
+
+    .label {
+        font-weight: bold;
+    }
+
+    .status {
+        margin-top: 20px;
+        padding: 12px;
+        border-radius: 8px;
+        background: #f1f5f9;
+    }
+</style>
+
+</head><body><div class="container"><div class="card">
+
+    <h1>Information Notice</h1>
+
+    <p>
+        This webpage can display information that your browser
+        makes available to it.
+    </p>
+
+    <div class="notice">
+
+        <strong>What will be displayed?</strong>
+
+        <ul>
+            <li>Browser information</li>
+            <li>Platform information</li>
+            <li>Screen information</li>
+            <li>Language</li>
+            <li>Time zone</li>
+            <li>Current date and time</li>
+            <li>Basic browser capabilities</li>
+        </ul>
+
+    </div>
+
+    <div class="privacy">
+
+        <strong>Privacy notice</strong>
+
+        <p>
+            Information is collected only after you choose
+            Continue.
+        </p>
+
+        <p>
+            This version does not request your location,
+            camera, microphone, contacts, or other
+            permission-based information.
+        </p>
+
+        <p>
+            You can choose whether to continue.
+        </p>
+
+    </div>
+
+    <div class="buttons">
+
+        <button
+            class="continue"
+            id="continueBtn">
+            Continue
+        </button>
+
+        <button
+            class="cancel"
+            id="cancelBtn">
+            Cancel
+        </button>
+
+    </div>
+
+    <div id="status"></div>
+
+    <div id="information"></div>
+
+</div>
+
+</div><script src="script.js"></script></body></html>

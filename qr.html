@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>QR Code Generator</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .container {
+            background: white;
+            max-width: 600px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        input {
+            width: 90%;
+            padding: 12px;
+            font-size: 16px;
+            margin: 15px 0;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            background: #222;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        #qrcode {
+            margin-top: 25px;
+        }
+
+        .note {
+            color: #666;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>QR Code Generator</h1>
+
+    <p>
+        Scan this QR code to open the Information Notice.
+    </p>
+
+    <input
+        type="text"
+        id="urlInput"
+        readonly
+    >
+
+    <br>
+
+    <button onclick="generateQR()">
+        Generate QR Code
+    </button>
+
+    <div id="qrcode"></div>
+
+    <p class="note">
+        Visitors must review the notice and provide consent
+        before information is collected.
+    </p>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+
+    // Replace this IP address with YOUR computer's IPv4 address.
+    const visitorUrl = "https://resemble-datebook-faceplate.ngrok-free.dev/";
+
+    document.getElementById("urlInput").value =
+        visitorUrl;
+
+    function generateQR() {
+
+        const qrContainer =
+            document.getElementById("qrcode");
+
+        qrContainer.innerHTML = "";
+
+        new QRCode(qrContainer, {
+            text: visitorUrl,
+            width: 250,
+            height: 250
+        });
+
+    }
+
+    generateQR();
+
+</script>
+
+</body>
+</html>
